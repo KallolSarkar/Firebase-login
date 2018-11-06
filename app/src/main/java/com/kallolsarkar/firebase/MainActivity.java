@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
     EditText email, password;
     Button registerbutton, loginbutton, logoutbutton;
-
+    private FirebaseUser firebaseUser;
     private FirebaseAuth mAuth;
 
     @Override
@@ -43,13 +43,18 @@ public class MainActivity extends AppCompatActivity {
         registerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String myEmail = email.getText().toString();
-                final String myPass = password.getText().toString();
+                 String myEmail = email.getText().toString();
+                 String myPass = password.getText().toString();
 
                 if (TextUtils.isEmpty(myEmail) || TextUtils.isEmpty(myPass)) {
                     Toast.makeText(MainActivity.this, "Please provide valid email and password", Toast.LENGTH_SHORT).show();
 
-                } else {
+                }
+                else if(myPass.length()<=6){
+                    Toast.makeText(MainActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                }
+
+                else {
                     mAuth.createUserWithEmailAndPassword(myEmail, myPass)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -59,9 +64,10 @@ public class MainActivity extends AppCompatActivity {
                                         Log.i("TAG", "createUserWithEmail:success");
                                         Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
 
-                                    } else {
+                                    }
+                                    else {
                                         // If sign in fails, display a message to the user.
-                                        Toast.makeText(MainActivity.this, "Email or password does not match", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, "This email ID already registered", Toast.LENGTH_SHORT).show();
 
                                     }
                                 }
