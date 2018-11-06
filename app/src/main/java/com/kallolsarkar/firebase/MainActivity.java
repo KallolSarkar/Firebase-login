@@ -75,6 +75,37 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        loginbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String myEmail = email.getText().toString();
+                String myPass = password.getText().toString();
+                if (TextUtils.isEmpty(myEmail) || TextUtils.isEmpty(myPass)) {
+                    Toast.makeText(MainActivity.this, "Please provide valid email and password", Toast.LENGTH_SHORT).show();
+
+                } else if (myPass.length() <= 6) {
+                    Toast.makeText(MainActivity.this, "Password not matched", Toast.LENGTH_SHORT).show();
+                } else {
+                    mAuth.signInWithEmailAndPassword(myEmail, myPass)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, toast with the signed-in user's information
+                                        Log.i("Tag", "signInWithEmail:success");
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        String userID = user.getUid().toString();
+                                        Toast.makeText(MainActivity.this, "Auth Success " + user, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        // If sign in fails
+                                        Log.i("Tag", "signInWithEmail:failure", task.getException());
+                                        Toast.makeText(MainActivity.this, "Login Failed ,Please recheck your email and password", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+        });
 
 
     }
