@@ -106,7 +106,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
+        logoutbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Toast.makeText(MainActivity.this, "Sign out successful", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }
